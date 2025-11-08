@@ -2,13 +2,12 @@
 var GoogleGenAI = require("@google/genai").GoogleGenAI;
 
 require('dotenv').config()
-
-const ai = new GoogleGenAI(process.env.GOOGLE_GEN_AI_KEY);
+const ai = new GoogleGenAI({apiKey: process.env.GOOGLE_GEN_AI_KEY});
 
 async function main() {
   const response = await ai.models.generateContent({
     model: "gemini-2.5-flash",
-    contents: "Explain how AI works in a few words",
+    contents: "give me a poet about a man named Chonk and how fat he is, only include the poem without any other text",
   });
   return response.text
 }
@@ -22,8 +21,9 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', async function(req, res, next) {
   let gem = await main();
-  res.json({"gemini_response": "PLACEHOLDER"});
-  res.render(gem, { title: 'Express' });
+//   res.json({"gemini_response": "PLACEHOLDER"});
+  console.log(gem);
+  res.send(gem);
 });
 
 module.exports = router;
