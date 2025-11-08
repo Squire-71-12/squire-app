@@ -29,7 +29,7 @@ export default function Navbar() {
                         <span />
                     </button>
 
-                    <ul className={`menu ${open ? 'open' : ''}`}>
+                    <ul className={`menu ${open ? 'open' : ''} bg-zinc-50 top-2em text-black max-[768px]:w-[clamp(2em,37vw,42vw)]`}>
                         <li>
                             <Link href="/">Home</Link>
                         </li>
@@ -52,9 +52,7 @@ export default function Navbar() {
                     // color: #fff;
                 }
                 .container {
-                    max-width: 1100px;
                     margin: 0 auto;
-                    padding: 0.5rem 1rem;
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
@@ -77,7 +75,7 @@ export default function Navbar() {
                     display: block;
                     width: 22px;
                     height: 2px;
-                    background: #fff;
+                    background: black;
                     margin: 3px 0;
                 }
                 .menu {
@@ -93,24 +91,23 @@ export default function Navbar() {
                 }
 
                 /* Responsive */
-                @media (max-width: 720px) {
+                @media (max-width: 768px) {
                     .burger {
                         display: flex;
                     }
                     .menu {
                         position: absolute;
-                        top: 56px;
+                        // top: 56px;
                         right: 1rem;
-                        background: #0b1220;
                         flex-direction: column;
                         gap: 0;
-                        min-width: 160px;
-                        border-radius: 8px;
                         overflow: hidden;
                         transform-origin: top right;
                         transform: scaleY(0);
                         transition: transform 150ms ease;
-                        box-shadow: 0 6px 18px rgba(2, 6, 23, 0.6);
+                        border: 1px solid black;
+                        padding-left: 0.2em;
+                        // box-shadow: 0 6px 18px rgba(2, 6, 23, 0.6);
                     }
                     .menu.open {
                         transform: scaleY(1);
@@ -120,7 +117,6 @@ export default function Navbar() {
                     }
                     .menu a {
                         display: block;
-                        padding: 0.75rem 1rem;
                     }
                 }
             `}</style>
