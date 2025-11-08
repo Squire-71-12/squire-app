@@ -35,7 +35,7 @@ export default function Navbar() {
                         </li>
                         <li>
                             <button className="bg-black hover:bg-green-300 text-white font-bold py-2 px-4 rounded">
-                                <Link className="button" href="/dashboard">Dashboard</Link>
+                                <Link href="/dashboard">Dashboard</Link>
                             </button>
                         </li>
                     </ul>
