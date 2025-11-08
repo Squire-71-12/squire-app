@@ -52,9 +52,7 @@ export default function Navbar() {
                     // color: #fff;
                 }
                 .container {
-                    max-width: 1100px;
                     margin: 0 auto;
-                    padding: 0.5rem 1rem;
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
@@ -120,7 +118,6 @@ export default function Navbar() {
                     }
                     .menu a {
                         display: block;
-                        padding: 0.75rem 1rem;
                     }
                 }
             `}</style>
