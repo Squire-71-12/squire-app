@@ -13,6 +13,7 @@ export default function SearchResult({ text }) {
         p-4
         transition-transform
         hover:scale-[1.01]
+        whitespace-pre-wrap
       "
     >
       <p className="text-gray-800 dark:text-gray-200">{text}</p>
