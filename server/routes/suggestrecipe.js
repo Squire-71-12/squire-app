@@ -114,7 +114,7 @@ router.post('/suggest-meal', async (req, res) => {
         User request: "${query}".
         You are the user's AI nutrition planner agent. The user wants to eat a healthy meal according to his macronutrient goals,
         provide the best recipe to them, also including nutritional information and a short snippet
-        of how it would fit their health goals. 
+        of how it would fit their health goals. Try to adapt the recipe to efficiently use the user's remaining macro goals (if the remaining macros are low, suggest a lighter recipe, if they are high, suggest a more indulgent recipe).
         You CAN include ingredients NOT in the user's available ingredients if necessary, but prioritize those that are available.
         You do not need to reference the user's food preference if it is not relevant to the recipe.
         Be straight to the point, but stay casual and friendly. don't add too much fluff!
