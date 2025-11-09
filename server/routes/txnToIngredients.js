@@ -72,7 +72,7 @@ router.post('/', async (req, res) => {
     const final_list = JSON.parse(aiResponse.text).products
 
     final_list.forEach(ingredient => {
-        fetch('http://localhost:8000/ingredients/create', {
+        fetch('https://squire-app.onrender.com/meals/get-meals/ingredients/create', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
