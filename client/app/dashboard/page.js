@@ -5,6 +5,7 @@ import SearchBar from "../Components/Searchbar";
 import BoxButton from "../Components/BoxButton";
 import SearchResult from "../Components/SearchResult";
 import { formatRecipe } from "../Components/formatRecipe";
+import ScrollBox from "../Components/ScrollBox";
 import Piechart from "../Components/Piechart";
 
 
@@ -216,9 +217,7 @@ export default function Home() {
 
 </div>
 
-
-
-
+          <ScrollBox userId={userId}/>
         {/* Button boxes */}
         <div
           className="
@@ -244,6 +243,7 @@ export default function Home() {
             onClick={() => console.log('Settings clicked!')}
           />
         </div>
+
       </main>
     </div>
   );

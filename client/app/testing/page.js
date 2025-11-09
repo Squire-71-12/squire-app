@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import ScrollBox from '../Components/ScrollBox';
 
 export default function Home() {
     const [responseText, setResponseText] = useState('');
@@ -49,6 +50,7 @@ export default function Home() {
                 </button>
 
                 <p className="text-gray-300 mt-4">{responseText}</p>
+                
             </main>
         </div>
     );
