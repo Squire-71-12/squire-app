@@ -10,7 +10,7 @@ const txn_fetch = fetch("https://knot.tunnel.tel/transactions/sync", {
     headers: {
         "Content-Type": "application/json"
     },
-    body: JSON.stringify({ merchant_id: 40, limit: 15 })
+    body: JSON.stringify({ merchant_id: 19, limit: 25 })
 }).then(response => response.json())
     .then(data => data.transactions)
     .then(txn => txn.filter(txn => txn.order_status == "COMPLETED"))
@@ -72,7 +72,7 @@ router.post('/', async (req, res) => {
     const final_list = JSON.parse(aiResponse.text).products
 
     final_list.forEach(ingredient => {
-        fetch('http://localhost:8080/ingredients/create', {
+        fetch('http://localhost:8000/ingredients/create', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
