@@ -44,6 +44,8 @@ By combining **Gemini’s generative AI** with real-world grocery data from **Kn
 | Category | Technology |
 |-----------|-------------|
 | **Frontend** | [Next.js 14+](https://nextjs.org/) (App Router) |
+|**Backend**| Express.js |
+|**Database** | MongoDB Atlas, with mongoose|
 | **UI & Styling** | [Tailwind CSS](https://tailwindcss.com/) |
 | **AI Engine** | [Google Gemini API](https://ai.google.dev/) |
 | **Grocery Integration** | [Knot API](https://www.knotapi.com/) |
