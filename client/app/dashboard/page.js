@@ -503,11 +503,6 @@ console.log(userData);
             w-full     
           "
         >
-          <BoxButton
-            imageSrc="/images/icon1.png"
-            title="Profile"
-            onClick={() => console.log('Profile clicked!')}
-          />
           <Link href="/knot-integration">
             <BoxButton
               imageSrc="https://www.knotapi.com/static/images/favicons/apple-touch-icon.png"
@@ -515,11 +510,6 @@ console.log(userData);
               onClick={() => console.log('Messages clicked!')}
             />
           </Link>
-          <BoxButton
-            imageSrc="/images/icon3.png"
-            title="Settings"
-            onClick={() => console.log('Settings clicked!')}
-          />
         </div>
 
       </main>
