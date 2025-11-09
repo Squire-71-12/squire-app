@@ -50,6 +50,7 @@ app.use('/recipes', recipeRouter);
 app.use('/ingredients', ingredientRouter);
 app.use('/meals', mealRouter);
 app.use('/txn-to-ingredients', require('./routes/txnToIngredients'));
+app.use('/knot', require('./routes/knot'));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
