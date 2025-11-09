@@ -89,7 +89,7 @@ router.post('/get-meals', async(req,res) => {
             .sort({ createdAt: -1 })
             .limit(mealLogNum);
             
-        res.status(200).json(mealLogs);
+        res.status(200).json({mealLogs: mealLogs});
 
     } catch (err) {
         // Handle errors
