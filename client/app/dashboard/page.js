@@ -7,6 +7,7 @@ import SearchResult from "../Components/SearchResult";
 import { formatRecipe } from "../Components/formatRecipe";
 import ScrollBox from "../Components/ScrollBox";
 import Piechart from "../Components/Piechart";
+import Link from "next/link";
 
 
 export default function Home() {
@@ -178,105 +179,70 @@ export default function Home() {
   const [mealLogId, setMealLogId] = useState(null);
 
   async function logMeal() {
-  if (!currentRecipe || !userId) return;
+    if (!currentRecipe || !userId) return;
 
-  try {
-    let logId = mealLogId;
+    try {
+      let logId = mealLogId;
 
-    // Step 1: Fetch the latest meal log for the user
-    if (!logId) {
-      const resGet = await fetch("https://squire-app.onrender.com/meals/get-meals", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, count: 1 }), // get latest meal log
-      });
-
-      const { mealLogs } = await resGet.json();
-      const latestLog = mealLogs && mealLogs.length > 0 ? mealLogs[0] : null;
-
-      const today = new Date();
-      const isSameDay = latestLog
-        ? new Date(latestLog.createdAt).toDateString() === today.toDateString()
-        : false;
-
-      if (latestLog && isSameDay) {
-        logId = latestLog._id; // use existing meal log
-      } else {
-        // create a new meal log
-        const resCreate = await fetch("https://squire-app.onrender.com/meals/create", {
+      // Step 1: Fetch the latest meal log for the user
+      if (!logId) {
+        const resGet = await fetch("https://squire-app.onrender.com/meals/get-meals", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userId }),
+          body: JSON.stringify({ userId, count: 1 }), // get latest meal log
         });
 
-        const createData = await resCreate.json();
-        logId = createData._id;
+        const { mealLogs } = await resGet.json();
+        const latestLog = mealLogs && mealLogs.length > 0 ? mealLogs[0] : null;
+
+        const today = new Date();
+        const isSameDay = latestLog
+          ? new Date(latestLog.createdAt).toDateString() === today.toDateString()
+          : false;
+
+        if (latestLog && isSameDay) {
+          logId = latestLog._id; // use existing meal log
+        } else {
+          // create a new meal log
+          const resCreate = await fetch("https://squire-app.onrender.com/meals/create", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userId }),
+          });
+
+          const createData = await resCreate.json();
+          logId = createData._id;
+        }
+
+        setMealLogId(logId); // store the log ID in state
       }
 
-      setMealLogId(logId); // store the log ID in state
+      // Step 2: Construct the meal object
+      const meal = {
+        mealType: currentRecipe.mealType || "lunch",
+        source: currentRecipe.source || "home-cooked",
+        meal_id: new Date().getTime().toString(),
+        mealName: currentRecipe.recipeName,
+        totalCalories: currentRecipe.totalCalories,
+        proteinGrams: currentRecipe.proteinGrams,
+        carbGrams: currentRecipe.carbGrams,
+        fatGrams: currentRecipe.fatGrams,
+      };
+
+      // Step 3: Add meal to the log
+      const resAdd = await fetch("https://squire-app.onrender.com/meals/add-meal", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mealLog_id: logId, meal }),
+      });
+
+      const updatedLog = await resAdd.json();
+      console.log("✅ Meal added:", updatedLog);
+
+    } catch (err) {
+      console.error("❌ Error logging meal:", err);
     }
-
-    // Step 2: Construct the meal object
-    const meal = {
-      mealType: currentRecipe.mealType || "lunch",
-      source: currentRecipe.source || "home-cooked",
-      meal_id: new Date().getTime().toString(),
-      mealName: currentRecipe.recipeName,
-      totalCalories: currentRecipe.totalCalories,
-      proteinGrams: currentRecipe.proteinGrams,
-      carbGrams: currentRecipe.carbGrams,
-      fatGrams: currentRecipe.fatGrams,
-    };
-
-    // Step 3: Add meal to the log
-    const resAdd = await fetch("https://squire-app.onrender.com/meals/add-meal", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ mealLog_id: logId, meal }),
-    });
-
-    const updatedLog = await resAdd.json();
-    console.log("✅ Meal added:", updatedLog);
-
-  } catch (err) {
-    console.error("❌ Error logging meal:", err);
   }
-}
-
-
-
-
-
-
-
-
-  // async function createMealLog() {
-  //   try {
-  //     const response = await fetch("/meals/create", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         userId, // 👈 send userId to backend
-  //       }),
-  //     });
-
-  //     if (!response.ok) throw new Error("Failed to create meal log");
-
-  //     const data = await response.json();
-  //     console.log("✅ Meal log created:", data);
-
-  //     // Suppose backend returns { mealLog_id: "abc123" }
-  //     setMealLogId(data.mealLog_id);
-
-  //   } catch (error) {
-  //     console.error("❌ Error creating meal log:", error);
-  //   }
-  // }
-
-
-
 
   return (
     <div className="min-h-screen font-sans dark:bg-light bg-white">
@@ -381,11 +347,13 @@ export default function Home() {
             title="Profile"
             onClick={() => console.log('Profile clicked!')}
           />
-          <BoxButton
-            imageSrc="/images/icon2.png"
-            title="Messages"
-            onClick={() => console.log('Messages clicked!')}
-          />
+          <Link href="/knot-integration">
+            <BoxButton
+              imageSrc="https://www.knotapi.com/static/images/favicons/apple-touch-icon.png"
+              title="Messages"
+              onClick={() => console.log('Messages clicked!')}
+            />
+          </Link>
           <BoxButton
             imageSrc="/images/icon3.png"
             title="Settings"
