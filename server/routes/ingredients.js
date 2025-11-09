@@ -28,7 +28,16 @@ router.post('/create', async (req, res) => {
         res.status(400).json({ message: err.message });
     }
 });
-
+router.post('/get-ingredients', async (req, res) => {
+    try {
+        const userId = req.body.userId;
+        const ingredients = (await Ingredient.find({ userId: userId })).filter(ing => ing.createdAt >= new Date(new Date().setDate(new Date().getDate() - 14)));
+        res.status(200).json(ingredients);
+    } catch (err) {
+        // Handle validation or database errors
+        res.status(400).json({ message: err.message });
+    }
+});
 /* GET users listing. */
 router.get('/user', function (req, res, next) {
     res.send('respond with a resource');

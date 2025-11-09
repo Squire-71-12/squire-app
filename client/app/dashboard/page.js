@@ -94,7 +94,7 @@ export default function Home() {
   
 
   return (
-    <div className="min-h-screen font-sans dark:bg-light bg-gray-50">
+    <div className="min-h-screen font-sans dark:bg-light bg-white">
       <main
         className="
           flex flex-col
@@ -144,7 +144,7 @@ export default function Home() {
         </div>
 
          {/* Remaining daily macros */}
-        <div className="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg w-full">
+        <div className="bg-gray-100 p-4 rounded-lg w-full">
           <h2 className="font-semibold mb-2">Remaining Daily Macros</h2>
           <p>Calories: {remainingCalories} kcal</p>
           <p>Protein: {remainingProteins} g</p>

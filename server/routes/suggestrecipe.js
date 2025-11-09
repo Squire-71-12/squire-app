@@ -54,11 +54,11 @@ const suggestedRecipeSchema = {
         },
         matchReason: { 
             type: "string", 
-            description: "A short, positive sentence explaining why this recipe was chosen based on the user's remaining macros, preferences, and taste. You can ignore the last two if you do not have sufficient data." 
+            description: "A short, positive sentence explaining how this recipe integrates within a healthy diet. You can ignore the last two if you do not have sufficient data." 
         },
         funFact: { 
             type: "string", 
-            description: "A short, engaging nutritional fact about one of the main ingredients in the recipe." 
+            description: "A short, engaging nutritional fact about one of the main ingredients in the recipe, make sure it's something relatively obscure." 
         },
     },
 
@@ -80,13 +80,17 @@ const suggestedRecipeSchema = {
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/suggest-meal', async (req, res) => {
-    const { userId, remainingMacros, foodPreference } = req.body;
+const User = require('../models/user');
+const Ingredient = require("../models/ingredient");
+
+router.post('/suggest-meal', async (req, res) => {
+    const { userId, remainingMacros, userRequest } = req.body;
     
     // 1. Fetch data from your database (MOCK FOR HACKATHON)
     // Replace this with a real MongoDB query in your final hackathon version
-    const availableIngredients = ['chicken', 'rice', 'broccoli', 'tomatoes', "lamb", "spinach", "farfalle"];
+    // const availableIngredients = ['chicken', 'rice', 'broccoli', 'tomatoes', "lamb", "spinach", "farfalle"];
+    var availableIngredients = (await Ingredient.find({ userId: userId })).filter(ing => ing.createdAt >= new Date(new Date().setDate(new Date().getDate() - 14)));
+    availableIngredientsList = availableIngredients.map(ing => ing.ingredientName);
     // const recipeOptions = await db.collection('recipes').find({ /* simple filter */ }).limit(10).toArray();
 
     // 2. Construct the intelligent prompt
@@ -100,14 +104,20 @@ router.get('/suggest-meal', async (req, res) => {
     //     Generate a fun nutritional fact about one of the main ingredients.
     //     Recipes to choose from: ${JSON.stringify(recipeOptions)}
     // `;
+
+    ;
+    const foundUser = await User.findById(userId);
       const prompt = `
-        User has remaining macros: ${JSON.stringify({calories: 700, protein: 60})}.
+        User has remaining macros: ${JSON.stringify(remainingMacros)}.
         User has ingredients: ${availableIngredients.join(', ')}.
-        User preference: ${"The user prefers a low fat food, and also appreciates asian style cuisine."}.
-        ou are a professional nutrionist and the user's ai assistant. The user wants to eat a healthy meal with chicken breast,
-        not exceeding 700 calories, provide a recipe to him, also including nutritional information and a short snippet
+        User preference: ${foundUser.foodPreference}.
+        User request: "${userRequest}".
+        You are the user's AI nutrition planner agent. The user wants to eat a healthy meal according to his macronutrient goals,
+        provide the best recipe to them, also including nutritional information and a short snippet
         of how it would fit their health goals. 
-        don't add too much fluff, keep it concise but casual (not informal though)!
+        You CAN include ingredients NOT in the user's available ingredients if necessary, but prioritize those that are available.
+        You do not need to reference the user's food preference if it is not relevant to the recipe.
+        Be straight to the point, but stay casual and friendly. don't add too much fluff!
     `;
 
     // 3. Call Gemini API with the required schema
