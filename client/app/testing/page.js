@@ -24,7 +24,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen font-sans dark:bg-black">
+    <div className="flex flex-col items-center justify-center min-h-screen font-sans dark:bg-white">
       <main className="flex flex-col space-y-6 items-center">
         <h1 className="text-2xl font-semibold text-white">POST Request Demo</h1>
 
