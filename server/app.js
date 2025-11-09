@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // 1. Get the MongoDB URI from your environment variables
 // Make sure to add MONGODB_URI=YOUR_CONNECTION_STRING to your .env file
-const MONGODB_URI = process.env.MONGODB_URI; 
+const MONGODB_URI = process.env.MONGODB_URI;
 
 // 2. Connect to MongoDB
 mongoose.connect(MONGODB_URI)
@@ -42,19 +42,22 @@ mongoose.connect(MONGODB_URI)
     // Optionally exit the process if the database is critical
   });
 
+
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/api', recipeRouter);
+app.use('/recipes', recipeRouter);
 app.use('/ingredients', ingredientRouter);
 app.use('/meals', mealRouter);
+app.use('/txn-to-ingredients', require('./routes/txnToIngredients'));
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

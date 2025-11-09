@@ -138,7 +138,7 @@ export default function Home() {
 
 
   return (
-    <div className="min-h-screen font-sans dark:bg-light bg-gray-50">
+    <div className="min-h-screen font-sans dark:bg-light bg-white">
       <main
         className="
           flex flex-col
