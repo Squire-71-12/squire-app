@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import SearchBar from "../Components/Searchbar";
 import BoxButton from "../Components/BoxButton";
@@ -8,6 +8,26 @@ import { formatRecipe } from "../Components/formatRecipe";
 
 
 export default function Home() {
+  const [userData, setUserData] = useState({});
+    
+    useEffect(() => {
+        const payload = {"userId": "690fc7733d3f4948a7d89600"}
+
+        fetch("https://squire-app.onrender.com/users/get-user", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        })
+            .then(res => res.json())
+            .then(data => setUserData(data))
+            .catch(err => console.error(err));
+
+
+    }, []);
+
+    
 
   const recipeData = {
     "recipeName": "Asian-Inspired Chicken & Broccoli Stir-fry",
@@ -113,7 +133,7 @@ export default function Home() {
             font-semibold
           "
         >
-          Hello User 👋
+          Hello, {userData.name} 👋
         </h1>
 
         {/* Search bar */}
